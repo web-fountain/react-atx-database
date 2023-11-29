@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  database:
+    container_name: postgres
+    image: postgres:alpine
+    restart: always
+    environment:
+    - PGUSER=react-atx
+    - POSTGRES_PASSWORD=postgres
+    - POSTGRES_DB=reactatx
+    ports:
+    - '5432:5432'
+    volumes:
+    - postgres:/var/lib/postgresql/data
+    - ./postgres:/docker-entrypoint-initdb.d/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "backstage-metrics-service"]
+      interval: 3s
+      timeout: 5s
+      retries: 3
+    networks:
+      service_tier:
+networks:
+  service_tier:
+    name: service_tier
+volumes:
+  postgres:
+    driver: local

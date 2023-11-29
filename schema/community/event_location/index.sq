@@ -1,0 +1,18 @@
+SET search_path TO community;
+
+
+/*
+ * CREATE TABLE location
+ */
+ CREATE TABLE IF NOT EXISTS community.event_location (
+  location_id       UUID,
+
+  name              TEXT
+  address_1         TEXT
+  address_2         TEXT
+  city              TEXT
+  state             TEXT
+  postal_code       INT
+
+  how_to_find       TEXT
+ );
