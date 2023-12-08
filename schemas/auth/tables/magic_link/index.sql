@@ -1,18 +1,19 @@
-SET search_path TO auth;
+SET search_path TO extensions, auth;
 
 
 /*
  * CREATE TABLE magic_link
  */
 CREATE TABLE IF NOT EXISTS  auth.magic_link (
-  token                 UUID NOT NULL DEFAULT uuid_generate_v4(),
-  expires_at            TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP + INTERVAL '8 minutes',
+  token                 TEXT NOT NULL DEFAULT uuid_generate_v4()::TEXT,
+  expires_at            TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP + INTERVAL '16 minutes',
   is_used               BOOLEAN NOT NULL DEFAULT FALSE,
 
   magic_link_type       TEXT NOT NULL,
   email                 auth.email NOT NULL,
 
   created_at            TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at            TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
 
   CONSTRAINT magic_link_token_pkey
@@ -43,8 +44,8 @@ CREATE TRIGGER tr_magic_link_updated_at_update
   BEFORE UPDATE
     ON auth.magic_link
   FOR EACH ROW
-    EXECUTE PROCEDURE auth.moddatetime(updated_at);
+    EXECUTE PROCEDURE moddatetime(updated_at);
 
 
 -- GRANTS --
-GRANT ALL ON TABLE auth.magic_link TO dev;
+-- GRANT ALL ON TABLE auth.magic_link TO dev;

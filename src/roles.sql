@@ -10,7 +10,6 @@ CREATE ROLE "cluser_admin"
   NOLOGIN;
 
 CREATE ROLE "db_admin"
-  CREATEROLE
   NOLOGIN;
 
 CREATE ROLE "dev"

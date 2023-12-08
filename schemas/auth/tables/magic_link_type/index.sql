@@ -21,7 +21,7 @@ CREATE INDEX IF NOT EXISTS magic_link_type_name_idx
 
 
 -- GRANTS --
-GRANT ALL ON TABLE auth.magic_link_type TO dev;
+-- GRANT ALL ON TABLE auth.magic_link_type TO dev;
 
 
 /*

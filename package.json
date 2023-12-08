@@ -1,16 +1,16 @@
 {
   "name": "reactatx_database",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
-  "type": "commonjs",
-  "main": "faker_seed.mjs",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "type": "module",
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@faker-js/faker": "^8.3.1"
+  },
+  "scripts": {
+    "initdb":"PGPASSWORD=admin psql -h localhost -U reactatx -d reactatx -f ./src/initdb.sql",
+    "seeddb":"PGPASSWORD=admin psql -h localhost -U reactatx -d reactatx -f ./src/seeddb.sql"
   }
 }

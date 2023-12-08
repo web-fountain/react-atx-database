@@ -1,4 +1,4 @@
-SET search_path TO community;
+SET search_path TO auth, extensions;
 
 
 /*
@@ -6,7 +6,7 @@ SET search_path TO community;
  * https://dba.stackexchange.com/questions/68266/what-is-the-best-way-to-store-an-email-address-in-postgresql
  * https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
  */
-CREATE DOMAIN community.email AS citext
+CREATE DOMAIN auth.email AS citext
   CHECK (
     LENGTH(value) <= 254
     AND

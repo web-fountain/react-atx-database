@@ -1,12 +1,12 @@
-SET search_path TO community;
+SET search_path TO extensions, community;
 
 
 /*
  * CREATE TABLE member
  */
 CREATE TABLE IF NOT EXISTS community.member (
-  email                 community.email NOT NULL,
-  created_at            TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  email             community.email NOT NULL,
+  created_at        TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
 
   CONSTRAINT member_email_pkey
@@ -21,4 +21,4 @@ CREATE INDEX IF NOT EXISTS member_email_idx
 
 
 -- GRANTS --
-GRANT ALL ON TABLE community.member TO dev;
+-- GRANT ALL ON TABLE community.member TO dev;
