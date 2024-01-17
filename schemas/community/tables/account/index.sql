@@ -7,10 +7,7 @@ SET search_path TO community;
 CREATE TABLE IF NOT EXISTS community.account (
   account_id             UUID NOT NULL DEFAULT uuid_generate_v4(),
 
-  email                  community.email,
-  email_verified         TIMESTAMPTZ,
-
-  status                 TEXT NOT NULL DEFAULT 'pending',
+  email                  community.email NOT NULL,
 
   created_at             TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at             TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -27,9 +24,11 @@ CREATE TABLE IF NOT EXISTS community.account (
     REFERENCES community.account_status (name)
 );
 
+-- INDICES --
 CREATE INDEX IF NOT EXISTS account_account_id_idx
   ON community.account
   USING btree (account_id);
+
 CREATE INDEX IF NOT EXISTS account_email_idx
   ON community.account
   USING btree (email);
@@ -40,6 +39,8 @@ CREATE TRIGGER tr_account_updated_at_update
   BEFORE UPDATE
     ON community.account
   FOR EACH ROW
-    EXECUTE PROCEDURE community.moddatetime(updated_at);
+    EXECUTE PROCEDURE extensions.moddatetime(updated_at);
 
-GRANT ALL ON TABLE community.account TO dev;
+
+-- GRANTS --
+-- GRANT ALL ON TABLE community.account TO dev;

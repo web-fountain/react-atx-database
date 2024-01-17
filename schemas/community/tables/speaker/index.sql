@@ -1,4 +1,4 @@
-SET search_path TO community;
+SET search_path TO extensions, community;
 
 
 /*
@@ -13,10 +13,10 @@ CREATE TABLE IF NOT EXISTS community.speaker (
   job_title                   TEXT,
   company_name                TEXT,
 
+  status                      TEXT NOT NULL DEFAULT 'pending',
+
   presentation_title          TEXT NOT NULL,
   presentation_summary        TEXT NOT NULL,
-
-  status                      TEXT NOT NULL DEFAULT 'pending',
 
   created_at                  TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at                  TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS community.speaker (
 
   CONSTRAINT speaker_status_fkey
     FOREIGN KEY (status)
-    REFERENCES community.speaker_sponsor_status (name)
+    REFERENCES community.speaker_status (name)
 );
 
 
@@ -87,8 +87,8 @@ CREATE TRIGGER tr_speaker_updated_at_update
   BEFORE UPDATE
     ON community.speaker
   FOR EACH ROW
-    EXECUTE PROCEDURE community.moddatetime(updated_at);
+    EXECUTE PROCEDURE extensions.moddatetime(updated_at);
 
 
 -- GRANTS --
-GRANT ALL ON TABLE community.member TO dev;
+-- GRANT ALL ON TABLE community.member TO dev;

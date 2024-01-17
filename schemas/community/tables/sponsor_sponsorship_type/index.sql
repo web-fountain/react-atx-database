@@ -1,4 +1,4 @@
-SET search_path TO community;
+SET search_path TO extensions, community;
 
 
 /*
@@ -21,9 +21,17 @@ CREATE TABLE IF NOT EXISTS community.sponsor_sponsorship_type (
     FOREIGN KEY (sponsorship_type)
     REFERENCES community.sponsorship_type (name)
 );
+
+
+-- INDICES --
 CREATE INDEX IF NOT EXISTS sponsor_sponsorship_type_sponsor_id_idx
   ON community.sponsor_sponsorship_type
   USING btree (sponsor_id);
+
 CREATE INDEX IF NOT EXISTS sponsor_sponsorship_type_sponsorship_type_idx
   ON community.sponsor_sponsorship_type
   USING btree (sponsorship_type);
+
+
+-- GRANTS --
+-- GRANT ALL ON TABLE community.member TO dev;

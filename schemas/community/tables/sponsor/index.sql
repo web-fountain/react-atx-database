@@ -1,4 +1,4 @@
-SET search_path TO community;
+SET search_path TO extensions, community;
 
 
 /*
@@ -6,9 +6,10 @@ SET search_path TO community;
  */
 CREATE TABLE IF NOT EXISTS community.sponsor (
   sponsor_id          UUID NOT NULL DEFAULT uuid_generate_v4(),
-  account_id          UUID NOT NULL,
+  email               community.email NOT NULL,
 
-  display_name        TEXT,
+  first_name          TEXT NOT NULL,
+  last_name           TEXT NOT NULL,
   job_title           TEXT,
   company_name        TEXT,
 
@@ -18,12 +19,16 @@ CREATE TABLE IF NOT EXISTS community.sponsor (
   updated_at          TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
 
-  CONSTRAINT sponsoer_id_pkey
+  CONSTRAINT sponsor_id_pkey
     PRIMARY KEY (sponsor_id),
 
-  CONSTRAINT sponsor_display_name_check
+  CONSTRAINT sponsor_first_name_check
     CHECK (
-      LENGTH(display_name) <= 64
+      LENGTH(first_name) <= 64
+    ),
+  CONSTRAINT sponsor_last_name_check
+    CHECK (
+      LENGTH(last_name) <= 64
     ),
   CONSTRAINT sponsor_job_title_check
     CHECK (
@@ -34,19 +39,29 @@ CREATE TABLE IF NOT EXISTS community.sponsor (
       LENGTH(company_name) <= 64
     ),
 
-  CONSTRAINT sponsor_account_id_fkey
-    FOREIGN KEY (account_id)
-    REFERENCES community.account (account_id),
   CONSTRAINT sponsor_status_fkey
     FOREIGN KEY (status)
-    REFERENCES community.speaker_sponsor_status (name)
+    REFERENCES community.sponsor_status (name)
 );
+
+
+-- INDICES --
 CREATE INDEX IF NOT EXISTS sponsor_sponsor_id_idx
   ON community.sponsor
   USING btree (sponsor_id);
-CREATE INDEX IF NOT EXISTS sponsor_display_name_idx
+
+CREATE INDEX IF NOT EXISTS sponsor_email_idx
   ON community.sponsor
-  USING btree (display_name);
+  USING btree (email);
+
+CREATE INDEX IF NOT EXISTS sponsor_first_name_idx
+  ON community.sponsor
+  USING btree (first_name);
+
+CREATE INDEX IF NOT EXISTS sponsor_last_name_idx
+  ON community.sponsor
+  USING btree (last_name);
+
 CREATE INDEX IF NOT EXISTS sponsor_company_name_idx
   ON community.sponsor
   USING btree (company_name);
@@ -57,4 +72,8 @@ CREATE TRIGGER tr_sponsor_updated_at_update
   BEFORE UPDATE
     ON community.sponsor
   FOR EACH ROW
-    EXECUTE PROCEDURE community.moddatetime(updated_at);
+    EXECUTE PROCEDURE extensions.moddatetime(updated_at);
+
+
+-- GRANTS --
+-- GRANT ALL ON TABLE community.member TO dev;

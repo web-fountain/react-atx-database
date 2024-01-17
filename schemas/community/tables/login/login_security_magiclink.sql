@@ -46,4 +46,4 @@ CREATE TRIGGER tr_login_security_updated_at_update
   BEFORE UPDATE
     ON community.login_security
   FOR EACH ROW
-    EXECUTE PROCEDURE community.moddatetime(updated_at);
+    EXECUTE PROCEDURE extensions.moddatetime(updated_at);

@@ -47,4 +47,4 @@ CREATE TRIGGER tr_news_comment_update_updated_at
   BEFORE UPDATE
     ON community.news_comment
   FOR EACH ROW
-    EXECUTE PROCEDURE community.moddatetime(updated_at);
+    EXECUTE PROCEDURE extensions.moddatetime(updated_at);

@@ -34,6 +34,6 @@ CREATE TRIGGER tr_tag_update_updated_at
   BEFORE UPDATE
     ON community.tag
   FOR EACH ROW
-    EXECUTE PROCEDURE community.moddatetime(updated_at);
+    EXECUTE PROCEDURE extensions.moddatetime(updated_at);
 
 GRANT ALL ON TABLE community.member TO dev;

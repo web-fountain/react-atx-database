@@ -1,0 +1,1 @@
+INSERT INTO "community"."speaker_status"("name") VALUES('canceled'),('confirmed'),('pending')

@@ -1,0 +1,9 @@
+export const emails = [
+{%- for email in emails %}
+  {% if forloop.last -%}
+    '{{ email | escapeJS }}'
+  {%- else -%}
+    '{{ email | escapeJS -}}',
+  {%- endif -%}
+{%- endfor %}
+];

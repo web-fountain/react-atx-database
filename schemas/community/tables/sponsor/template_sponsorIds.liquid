@@ -1,0 +1,9 @@
+export const sponsorIds = [
+{%- for sponsorId in sponsorIds %}
+  {% if forloop.last -%}
+    '{{ sponsorId }}'
+  {%- else -%}
+    '{{ sponsorId -}}',
+  {%- endif -%}
+{%- endfor %}
+];

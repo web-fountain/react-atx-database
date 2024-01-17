@@ -1,4 +1,5 @@
-FROM docker.io/library/postgres@sha256:c6cec10534c1f763495eb4fa07a6eba3e72517f10998629213520f29f7e92a8c
+# https://hub.docker.com/layers/library/postgres/16.1-alpine3.19/images/sha256-d9449d47e5bc5ac6b832168b0f38e7ea7762ac75c574963d5ebfd75090f55d35?context=explore
+FROM docker.io/library/postgres:16.1-alpine3.19
 
 # labels from https://github.com/opencontainers/image-spec/blob/master/annotations.md
 LABEL org.opencontainers.image.created=$now
@@ -23,16 +24,16 @@ LABEL org.opencontainers.image.authors=roberto.fuentes@webfountain.io
 LABEL org.opencontainers.image.vendor="Web Fountain, Inc"
 
 # License(s) under which contained software is distributed as an SPDX License Expression.
-LABEL org.opencontainers.image.licenses=MIT
+LABEL org.opencontainers.image.licenses=Apache-2.0
 
 # title, description, name, digest of image
 LABEL org.opencontainers.image.title="React ATX Database"
 LABEL org.opencontainers.image.description="Postgres database for local application development"
-LABEL org.opencontainers.image.base.name=dokcer.io/library/postgres:16.1-alpine3.18
-LABEL org.opencontainers.image.base.digest=sha256:c6cec10534c1f763495eb4fa07a6eba3e72517f10998629213520f29f7e92a8c
+LABEL org.opencontainers.image.base.name=dokcer.io/library/postgres:16.1-alpine3.19
+LABEL org.opencontainers.image.base.digest=sha256:d9449d47e5bc5ac6b832168b0f38e7ea7762ac75c574963d5ebfd75090f55d35
 
 # version
-LABEL io.webfountain.postgres.version=16.1-alpine3.18
+LABEL io.webfountain.postgres.version=16.1
 
 # env variables
 ENV POSTGRES_DB=$POSTGRES_DB

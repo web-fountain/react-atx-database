@@ -1,17 +1,38 @@
+React ATX Database
+==========
+
+Database for the React ATX Meetup
+
+---
+
+* [Getting Started](#getting-started)
+  - [Podman]
+    - [Build Image](#build-image)
+    - [Persist Data](#persist-data)
+    - [Run Container](#run-container)
+    - [Sanity Checks](#sanity-checks)
+  - [Docker](#docker-comming-soon)
+* [Initialize Database](#initalize-database)
+* [Helpful Commands](#helpful-commands)
+
+---
+
 # Getting Started
+
+## Podman
 
 The following assumes you have installed and have running [Podman] and/or [Podman Desktop]
 and/or [Docker Desktop].
 
 > NOTE: If you are using Docker substitute the command `podman` for `docker` below
 
-## 1. Build the Postgres Image
+### Build Image
 
 We will be using the `Containerfile` to build our image. Run the following:
 
 ```
 → podman build \
-  -t localhost/postgres:16.1-alpine3.18 \
+  -t localhost/postgres:16.1-alpine3.19 \
   --env now=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
   --env POSTGRES_DB=reactatx \
   --env POSTGRES_USER=reactatx \
@@ -25,12 +46,12 @@ A quick sanity check:
 
 ```
 REPOSITORY          TAG              IMAGE ID      CREATED         SIZE
-localhost/postgres  16.1-alpine3.18  5ea5105c896e  13 minutes ago  242 MB
+localhost/postgres  16.1-alpine3.19  5ea5105c896e  13 minutes ago  242 MB
 ```
 
 The postgres database is initialized with a superuser named `reactatx` and a database with the same name.
 
-## 2. Persisting Postgres Data
+### Persist Data
 
 In order to persist data from the container start/stop/remove cycle we first create a `volume` with a name `pgdata`:
 
@@ -45,7 +66,7 @@ DRIVER      VOLUME NAME
 local       pgdata
 ```
 
-## 3. Running a Postgres Container
+### Run Container
 
 Create a postgres container with the name local-pg:
 
@@ -55,13 +76,13 @@ Create a postgres container with the name local-pg:
   --name local-pg \
   -v pgdata:/var/lib/postgresql/data \
   -p 5432:5432 \
-  localhost/postgres:16.1-alpine3.18
+  localhost/postgres:16.1-alpine3.19
 
 → 48803f2864eba641bef9dcc11fb94c0a76802b89fc6c236bc9752df56b4e808e
 ```
 The flag `-d` means to run the container in a detached mode. After executing the above command you should see a container ID sha as the only output (similar to this): `48803f2864eba641bef9dcc11fb94c0a76802b89fc6c236bc9752df56b4e808e`
 
-## 4. Sanity Checks
+### Sanity Checks
 
 Connect to the postgres container:
 
@@ -160,14 +181,18 @@ Our data persists!
 > 3. create a new volume: `podman volume create pgdata`
 > 4. run a new container following the above `podman run` command
 
+## Docker (comming soon!)
+
 # Initialize & Seed the database
+
+> NOTE: In order to perform the following commands you need to have `psql` installed on your system. We will use `psql` to talk to the database server inside the container. Find the installation for your OS [here](https://www.postgresql.org/download/).
 
 To initialize and seed the database it is assumed that you are using one of the package managers: [pnpm], [yarn], or [npm].
 
 Run the podman command to create a new database container. Once that is running execute the following commands (substitute for your package manager):
 
 1. `→ pnpm initdb`
-1. `→ pnpm seeddb`
+2. `→ pnpm seeddb`
 
 At this point, you can use a db client to connect to the database locally to verify that the tables and seed data were indeed initialized.
 

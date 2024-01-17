@@ -1,0 +1,9 @@
+export const speakerIds = [
+{%- for speakerId in speakerIds %}
+  {% if forloop.last -%}
+    '{{ speakerId }}'
+  {%- else -%}
+    '{{ speakerId -}}',
+  {%- endif -%}
+{%- endfor %}
+];
