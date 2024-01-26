@@ -12,7 +12,11 @@ Database for the React ATX Meetup
     - [Run Container](#run-container)
     - [Sanity Checks](#sanity-checks)
   - [Docker](#docker-comming-soon)
-* [Initialize Database](#initalize-database)
+    - [Build Image](#build-image)
+    - [Persist Data](#persist-data)
+    - [Run Container](#run-container)
+    - [Sanity Checks](#sanity-checks)
+* [Initialize and Seed the database](#initialize-and-seed-the-database)
 * [Helpful Commands](#helpful-commands)
 
 ---
@@ -21,8 +25,7 @@ Database for the React ATX Meetup
 
 ## Podman
 
-The following assumes you have installed and have running [Podman] and/or [Podman Desktop]
-and/or [Docker Desktop].
+The following assumes you have installed and have running [Podman] and/or [Podman Desktop].
 
 > NOTE: If you are using Docker substitute the command `podman` for `docker` below
 
@@ -137,10 +140,9 @@ and then re-run the command:
 → podman run \
   -d \
   --name local-pg \
-  --env-file=.env \
   -v pgdata:/var/lib/postgresql/data \
   -p 5432:5432 \
-  postgres:16.1-alpine
+  localhost/postgres:16.1-alpine3.19
 
 → debc19aaf34fb7a87e7ced1704a68fcc66964a40721f93eb863ae498bc6b4c2b
 ```
@@ -183,7 +185,164 @@ Our data persists!
 
 ## Docker (comming soon!)
 
-# Initialize & Seed the database
+The following assumes you have installed and have running [Docker Desktop].
+
+### Build Image
+
+We will be using the `Containerfile` to build our image. Run the following:
+
+```
+→ docker build \
+  -t localhost/postgres:16.1-alpine3.19 \
+  --build-arg now=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+  --build-arg POSTGRES_DB=reactatx \
+  --build-arg POSTGRES_USER=reactatx \
+  --build-arg POSTGRES_PASSWORD=admin \
+  -f Containerfile \
+  .
+```
+
+A quick sanity check:
+
+`→ docker images`
+
+```
+REPOSITORY           TAG               IMAGE ID       CREATED       SIZE
+localhost/postgres   16.1-alpine3.19   877f8b2edce7   5 weeks ago   353MB
+```
+
+The postgres database is initialized with a superuser named `reactatx` and a database with the same name.
+
+### Persist Data
+
+In order to persist data from the container start/stop/remove cycle we first create a `volume` with a name `pgdata`:
+
+`→ docker volume create pgdata`
+
+A quick sanity check:
+
+`→ docker volume ls`
+
+```
+DRIVER      VOLUME NAME
+local       pgdata
+```
+
+### Run Container
+
+Create a postgres container with the name local-pg:
+
+```
+→ docker run \
+  -d \
+  --name local-pg \
+  -v pgdata:/var/lib/postgresql/data \
+  -p 5432:5432 \
+  localhost/postgres:16.1-alpine3.19
+
+→ 238a31bfa1113c9f6f665a59a5dd586fed09405004b552daf8abf7141df6a9ba
+```
+The flag `-d` means to run the container in a detached mode. After executing the above command you should see a container ID sha as the only output (similar to this): `238a31bfa1113c9f6f665a59a5dd586fed09405004b552daf8abf7141df6a9ba`
+
+### Sanity Checks
+
+Connect to the postgres container:
+
+```
+→ docker exec -it local-pg bash
+
+238a31bfa111:/#
+```
+
+Note that `238a31bfa111` is part of the container ID sha from above.
+
+Inside the container we will run the following psql command and see the output:
+
+`psql -h localhost -U reactatx -d reactatx`
+
+```
+psql (16.1)
+Type "help" for help.
+
+reactatx=#
+```
+
+Next, copy/paste the following to create the table `member`:
+
+```
+CREATE TABLE IF NOT EXISTS member (
+  email  TEXT
+);
+```
+Insert some data into the table:
+
+`INSERT INTO member (email) VALUES ('member@reactatx.org');`
+
+Then do a `SELECT * FROM member;` and you should see
+
+```
+        email
+---------------------
+ member@reactatx.org
+(1 row)
+```
+
+Great! Now lets `\q` to quit postgres and then `exit` to exit the container.
+
+To check that the data is persisted we are going to remove the running container:
+
+`→ docker container rm local-pg -f`
+
+and then re-run the command:
+
+```
+→ docker run \
+  -d \
+  --name local-pg \
+  -v pgdata:/var/lib/postgresql/data \
+  -p 5432:5432 \
+  localhost/postgres:16.1-alpine3.19
+
+→ debc19aaf34fb7a87e7ced1704a68fcc66964a40721f93eb863ae498bc6b4c2b
+```
+
+Then
+
+```
+→ docker exec -it local-pg bash
+
+debc19aaf34f:/#
+```
+
+and finally
+
+`psql -h localhost -U reactatx -d reactatx`
+
+```
+psql (16.1)
+Type "help" for help.
+
+reactatx=#
+```
+
+Run the SQL `SELECT * FROM member;` and you should see
+
+```
+        email
+---------------------
+ member@reactatx.org
+(1 row)
+```
+
+Our data persists!
+
+>NOTE: Remove the data once you checked your sanity:
+> 1. stop & remove the container: `docker container rm local-pg -f`
+> 2. remove the volume: `docker volume remove pgdata`
+> 3. create a new volume: `docker volume create pgdata`
+> 4. run a new container following the above `docker run` command
+
+# Initialize and Seed the database
 
 > NOTE: In order to perform the following commands you need to have `psql` installed on your system. We will use `psql` to talk to the database server inside the container. Find the installation for your OS [here](https://www.postgresql.org/download/).
 
@@ -196,24 +355,29 @@ Run the podman command to create a new database container. Once that is running 
 
 At this point, you can use a db client to connect to the database locally to verify that the tables and seed data were indeed initialized.
 
-You can also `podman exec -it local-pg bash` and follow the above instructions to verify.
+You can also `podman exec -it local-pg bash` or `docker exec -it local-pg bash` and follow the above instructions to verify.
 
 # Helpful Commands
 
 ### Stop Container
 `podman container stop local-pg`
+`docker container stop local-pg`
 
 ### Start Container
 `podman container start local-pg`
+`docker container start local-pg`
 
 ### Remove Container
 `podman container rm local-pg -f`
+`docker container rm local-pg -f`
 
 ### Create Volume
 `podman volume create pgdata`
+`docker volume create pgdata`
 
 ### Remove Volume
 `podman volume rm pgdata`
+`docker volume rm pgdata`
 
 
 [podman]: https://podman.io

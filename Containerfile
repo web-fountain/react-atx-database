@@ -1,6 +1,11 @@
 # https://hub.docker.com/layers/library/postgres/16.1-alpine3.19/images/sha256-d9449d47e5bc5ac6b832168b0f38e7ea7762ac75c574963d5ebfd75090f55d35?context=explore
 FROM docker.io/library/postgres:16.1-alpine3.19
 
+# build args
+ARG POSTGRES_DB
+ARG POSTGRES_USER
+ARG POSTGRES_PASSWORD
+
 # labels from https://github.com/opencontainers/image-spec/blob/master/annotations.md
 LABEL org.opencontainers.image.created=$now
 LABEL org.opencontainers.image.authors=roberto.fuentes@webfountain.io
