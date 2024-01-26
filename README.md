@@ -38,8 +38,8 @@ We will be using the `Containerfile` to build our image. Run the following:
   -t localhost/postgres:16.1-alpine3.19 \
   --env now=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
   --env POSTGRES_DB=reactatx \
-  --env POSTGRES_USER=reactatx \
-  --env POSTGRES_PASSWORD=admin \
+  --env POSTGRES_USER=dev \
+  --env POSTGRES_PASSWORD=local-dev \
   .
 ```
 
@@ -52,7 +52,7 @@ REPOSITORY          TAG              IMAGE ID      CREATED         SIZE
 localhost/postgres  16.1-alpine3.19  5ea5105c896e  13 minutes ago  242 MB
 ```
 
-The postgres database is initialized with a superuser named `reactatx` and a database with the same name.
+The postgres database is initialized with a superuser named `dev` and a database with the same name.
 
 ### Persist Data
 
@@ -99,7 +99,7 @@ Note that `48803f2864eb` is part of the container ID sha from above.
 
 Inside the container we will run the following psql command and see the output:
 
-`psql -h localhost -U reactatx -d reactatx`
+`psql -h localhost -U dev -d reactatx`
 
 ```
 psql (16.1)
@@ -157,7 +157,7 @@ debc19aaf34f:/#
 
 and finally
 
-`psql -h localhost -U reactatx -d reactatx`
+`psql -h localhost -U dev -d reactatx`
 
 ```
 psql (16.1)
@@ -196,8 +196,8 @@ We will be using the `Containerfile` to build our image. Run the following:
   -t localhost/postgres:16.1-alpine3.19 \
   --build-arg now=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
   --build-arg POSTGRES_DB=reactatx \
-  --build-arg POSTGRES_USER=reactatx \
-  --build-arg POSTGRES_PASSWORD=admin \
+  --build-arg POSTGRES_USER=dev \
+  --build-arg POSTGRES_PASSWORD=local-dev \
   -f Containerfile \
   .
 ```
@@ -211,7 +211,7 @@ REPOSITORY           TAG               IMAGE ID       CREATED       SIZE
 localhost/postgres   16.1-alpine3.19   877f8b2edce7   5 weeks ago   353MB
 ```
 
-The postgres database is initialized with a superuser named `reactatx` and a database with the same name.
+The postgres database is initialized with a superuser named `dev` and a database with the same name.
 
 ### Persist Data
 
@@ -258,7 +258,7 @@ Note that `238a31bfa111` is part of the container ID sha from above.
 
 Inside the container we will run the following psql command and see the output:
 
-`psql -h localhost -U reactatx -d reactatx`
+`psql -h localhost -U dev -d reactatx`
 
 ```
 psql (16.1)
@@ -316,7 +316,7 @@ debc19aaf34f:/#
 
 and finally
 
-`psql -h localhost -U reactatx -d reactatx`
+`psql -h localhost -U dev -d reactatx`
 
 ```
 psql (16.1)

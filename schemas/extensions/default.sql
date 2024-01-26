@@ -1,29 +1,30 @@
 CREATE EXTENSION IF NOT EXISTS citext SCHEMA extensions;
 CREATE EXTENSION IF NOT EXISTS moddatetime SCHEMA extensions;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" SCHEMA extensions;
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 
--- make sure everybody can use everything in the extensions schema
+-- make sure 'dev' can use everything in the extensions schema
 GRANT USAGE
   ON SCHEMA extensions
-  TO reactatx;
+  TO dev;
 GRANT EXECUTE
   ON ALL FUNCTIONS
   IN SCHEMA extensions
-  TO reactatx;
+  TO dev;
 
 -- include future extensions
 ALTER DEFAULT PRIVILEGES
   IN SCHEMA extensions
-  GRANT EXECUTE
-    ON FUNCTIONS
-    TO reactatx;
+  GRANT USAGE
+    ON TYPES
+    TO dev;
 
 ALTER DEFAULT PRIVILEGES
   IN SCHEMA extensions
-  GRANT USAGE
-    ON TYPES
-    TO reactatx;
+  GRANT EXECUTE
+    ON FUNCTIONS
+    TO dev;
 
 
 -- moddatetime

@@ -13,9 +13,9 @@
     "rimraf": "^5.0.5"
   },
   "scripts": {
-    "initdb": "PGPASSWORD=admin psql -h localhost -U reactatx -d reactatx -f ./src/initdb.sql",
-    "seeddb": "PGPASSWORD=admin psql -h localhost -U reactatx -d reactatx -f ./src/seeddb.sql",
-    "wipedb": "PGPASSWORD=admin psql -h localhost -U reactatx -d reactatx -f ./src/wipedb.sql",
+    "initdb": "PGPASSWORD=local-dev psql -h localhost -U dev -d reactatx -f ./src/initdb.sql",
+    "seeddb": "PGPASSWORD=local-dev psql -h localhost -U dev -d reactatx -f ./src/seeddb.sql",
+    "wipedb": "PGPASSWORD=local-dev psql -h localhost -U dev -d reactatx -f ./src/wipedb.sql",
     "repack": "rimraf -rf node_modules pnpm-lock.yaml && pnpm install"
   }
 }
