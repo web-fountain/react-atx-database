@@ -1,7 +1,7 @@
 CREATE EXTENSION IF NOT EXISTS citext SCHEMA extensions;
 CREATE EXTENSION IF NOT EXISTS moddatetime SCHEMA extensions;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" SCHEMA extensions;
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
+CREATE EXTENSION IF NOT EXISTS pgcrypto SCHEMA extensions;
 
 
 -- make sure 'dev' can use everything in the extensions schema

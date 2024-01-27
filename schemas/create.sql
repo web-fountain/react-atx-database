@@ -1,6 +1,11 @@
+CREATE SCHEMA IF NOT EXISTS extensions;
 CREATE SCHEMA IF NOT EXISTS auth;
 CREATE SCHEMA IF NOT EXISTS community;
-CREATE SCHEMA IF NOT EXISTS extensions;
+
+
+-- SET the search_path for the database to ALL schemas
+-- NOTE: ALTER ROLE to limit search_path
+ALTER DATABASE reactatx SET search_path TO extensions, auth, community;
 
 
 -- CREATE SCHEMA IF NOT EXISTS community
