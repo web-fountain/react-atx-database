@@ -1,8 +1,8 @@
-SET search_path = auth;
+SET search_path TO extensions;
 
 
 CREATE OR REPLACE FUNCTION
-  create_token_64bytes_hex()
+  create_64bytes_hex()
 RETURNS TEXT AS
   $$
     BEGIN
