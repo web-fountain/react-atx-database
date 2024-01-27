@@ -5,11 +5,11 @@ SET search_path TO extensions, community;
  * CREATE TABLE member
  */
 CREATE TABLE IF NOT EXISTS community.member (
-  email                 community.email NOT NULL,
-  email_verified        BOOLEAN NOT NULL DEFAULT FALSE,
+  email             community.email NOT NULL,
+  is_verified       BOOLEAN NOT NULL DEFAULT FALSE,
 
-  created_at            TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at            TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at        TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at        TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
 
   CONSTRAINT member_email_pkey

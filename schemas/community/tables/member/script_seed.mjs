@@ -7,7 +7,7 @@ import { emails } from '../../../_seed/data.mjs';
 
 const pgp = pgpromise({ capSQL: true });
 const table = new pgp.helpers.TableName({ table: 'member', schema: 'community' });
-const columns = new pgp.helpers.ColumnSet(['email', 'email_verified'], { table });
+const columns = new pgp.helpers.ColumnSet(['email', 'is_verified'], { table });
 
 async function member() {
   const data = [];
@@ -17,7 +17,7 @@ async function member() {
   for (;i<len;i++) {
     data.push({
       email:              emails[i],
-      email_verified:     faker.datatype.boolean({ probability: 0.5 })
+      is_verified:        faker.datatype.boolean({ probability: 0.5 })
     });
   }
 

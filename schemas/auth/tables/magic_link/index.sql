@@ -5,7 +5,7 @@ SET search_path TO extensions, auth;
  * CREATE TABLE magic_link
  */
 CREATE TABLE IF NOT EXISTS  auth.magic_link (
-  token                 TEXT NOT NULL DEFAULT uuid_generate_v4()::TEXT,
+  token                 TEXT NOT NULL DEFAULT create_token_64bytes_hex(),
   expires_at            TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP + INTERVAL '15 minutes',
   is_used               BOOLEAN NOT NULL DEFAULT FALSE,
 

@@ -5,11 +5,13 @@ BEGIN;
 
 -- AUTH
 \i ./schemas/auth/domains/email.sql
+\i ./schemas/auth/functions/create_token_64bytes_hex.sql
 \i ./schemas/auth/tables/magic_link_type/index.sql
 \i ./schemas/auth/tables/magic_link/index.sql
 
 -- COMMUNITY
 \i ./schemas/community/domains/email.sql
+\i ./schemas/community/functions/join_member.sql
 \i ./schemas/community/tables/member/index.sql
 
 \i ./schemas/community/tables/speaker_status/index.sql

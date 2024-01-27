@@ -26,7 +26,7 @@ async function magicLink() {
     expiresAt.setMinutes(createdAt.getMinutes() + minutes_to_expire);
 
     magicLinks.push({
-      token:            (await randomBytesAsync(64)).toString('base64url'),
+      token:            (await randomBytesAsync(64)).toString('hex'),
       expires_at:       expiresAt.toISOString(),
       is_used:          faker.datatype.boolean({ probability: 0.5 }),
       magic_link_type:  faker.helpers.arrayElement(magicLinkTypes),
