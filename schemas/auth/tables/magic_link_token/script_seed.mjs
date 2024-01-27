@@ -12,8 +12,8 @@ const randomBytesAsync = util.promisify(randomBytes);
 const minutes_to_expire = 15;
 
 const pgp = pgpromise({ capSQL: true });
-const table = new pgp.helpers.TableName({ table: 'magic_link', schema: 'auth' });
-const columns = new pgp.helpers.ColumnSet(['token', 'expires_at', 'is_used', 'magic_link_type', 'email'], { table });
+const table = new pgp.helpers.TableName({ table: 'magic_link_token', schema: 'auth' });
+const columns = new pgp.helpers.ColumnSet(['expires_at', 'is_used', 'magic_link_type', 'email'], { table });
 
 async function magicLink() {
   let i=0;
@@ -26,7 +26,8 @@ async function magicLink() {
     expiresAt.setMinutes(createdAt.getMinutes() + minutes_to_expire);
 
     magicLinks.push({
-      token:            (await randomBytesAsync(64)).toString('hex'),
+      // Leaving for Future Reference
+      // token_id:         (await randomBytesAsync(64)).toString('hex'),
       expires_at:       expiresAt.toISOString(),
       is_used:          faker.datatype.boolean({ probability: 0.5 }),
       magic_link_type:  faker.helpers.arrayElement(magicLinkTypes),

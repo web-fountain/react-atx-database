@@ -1,11 +1,11 @@
-SET search_path TO extensions, auth;
+SET search_path TO auth, extensions;
 
 
 /*
- * CREATE TABLE magic_link
+ * CREATE TABLE magic_link_token
  */
-CREATE TABLE IF NOT EXISTS  auth.magic_link (
-  token                 TEXT NOT NULL DEFAULT create_token_64bytes_hex(),
+CREATE TABLE IF NOT EXISTS  auth.magic_link_token (
+  token_id              TEXT NOT NULL DEFAULT create_64bytes_hex(),
   expires_at            TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP + INTERVAL '15 minutes',
   is_used               BOOLEAN NOT NULL DEFAULT FALSE,
 
@@ -16,36 +16,36 @@ CREATE TABLE IF NOT EXISTS  auth.magic_link (
   updated_at            TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
 
-  CONSTRAINT magic_link_token_pkey
-    PRIMARY KEY (token),
+  CONSTRAINT magic_link_token_id_pkey
+    PRIMARY KEY (token_id),
 
-  CONSTRAINT magic_link_type_fkey
+  CONSTRAINT magic_link_token_type_fkey
     FOREIGN KEY (magic_link_type)
     REFERENCES auth.magic_link_type (name)
 );
 
 
 -- INDICES --
-CREATE INDEX IF NOT EXISTS magic_link_token_idx
-  ON auth.magic_link
-  USING btree (token);
+CREATE INDEX IF NOT EXISTS magic_link_token_id_idx
+  ON auth.magic_link_token
+  USING btree (token_id);
 
 CREATE INDEX IF NOT EXISTS magic_link_email_idx
-  ON auth.magic_link
+  ON auth.magic_link_token
   USING btree (email);
 
 CREATE INDEX IF NOT EXISTS magic_link_type_idx
-  ON auth.magic_link
+  ON auth.magic_link_token
   USING btree (magic_link_type);
 
 
 -- TRIGGERS --
 CREATE TRIGGER tr_magic_link_updated_at_update
   BEFORE UPDATE
-    ON auth.magic_link
+    ON auth.magic_link_token
   FOR EACH ROW
     EXECUTE PROCEDURE moddatetime(updated_at);
 
 
 -- GRANTS --
--- GRANT ALL ON TABLE auth.magic_link TO dev;
+-- GRANT ALL ON TABLE auth.magic_link_token TO dev;
