@@ -1,13 +1,16 @@
 BEGIN;
 
 \i ./schemas/create.sql
+
+-- EXTENSIONS
 \i ./schemas/extensions/default.sql
+\i ./schemas/extensions/functions/create_64bytes_hex.sql
 
 -- AUTH
 \i ./schemas/auth/domains/email.sql
-\i ./schemas/auth/functions/create_token_64bytes_hex.sql
+\i ./schemas/auth/functions/create_magic_link_join_token.sql
 \i ./schemas/auth/tables/magic_link_type/index.sql
-\i ./schemas/auth/tables/magic_link/index.sql
+\i ./schemas/auth/tables/magic_link_token/index.sql
 
 -- COMMUNITY
 \i ./schemas/community/domains/email.sql
