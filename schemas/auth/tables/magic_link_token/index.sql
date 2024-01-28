@@ -1,4 +1,4 @@
-SET search_path TO auth, extensions;
+SET search_path TO extensions, auth;
 
 
 /*

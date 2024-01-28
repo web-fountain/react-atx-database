@@ -1,4 +1,4 @@
-SET search_path TO community, extensions;
+SET search_path TO extensions, community;
 
 
 /*
