@@ -35,11 +35,11 @@ We will be using the `Containerfile` to build our image. Run the following:
 
 ```
 → podman build \
-  -t localhost/postgres:16.1-alpine3.19 \
-  --env now=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
-  --env POSTGRES_DB=reactatx \
-  --env POSTGRES_USER=dev \
-  --env POSTGRES_PASSWORD=local-dev \
+  -t localhost/postgres:16.2-alpine3.19 \
+  --build-arg now=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+  --build-arg POSTGRES_DB=reactatx \
+  --build-arg POSTGRES_USER=dev \
+  --build-arg POSTGRES_PASSWORD=local-dev \
   .
 ```
 
@@ -79,7 +79,7 @@ Create a postgres container with the name local-pg:
   --name local-pg \
   -v pgdata:/var/lib/postgresql/data \
   -p 5432:5432 \
-  localhost/postgres:16.1-alpine3.19
+  localhost/postgres:16.2-alpine3.19
 
 → 48803f2864eba641bef9dcc11fb94c0a76802b89fc6c236bc9752df56b4e808e
 ```
@@ -142,7 +142,7 @@ and then re-run the command:
   --name local-pg \
   -v pgdata:/var/lib/postgresql/data \
   -p 5432:5432 \
-  localhost/postgres:16.1-alpine3.19
+  localhost/postgres:16.2-alpine3.19
 
 → debc19aaf34fb7a87e7ced1704a68fcc66964a40721f93eb863ae498bc6b4c2b
 ```
@@ -193,7 +193,7 @@ We will be using the `Containerfile` to build our image. Run the following:
 
 ```
 → docker build \
-  -t localhost/postgres:16.1-alpine3.19 \
+  -t localhost/postgres:16.2-alpine3.19 \
   --build-arg now=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
   --build-arg POSTGRES_DB=reactatx \
   --build-arg POSTGRES_USER=dev \
@@ -238,7 +238,7 @@ Create a postgres container with the name local-pg:
   --name local-pg \
   -v pgdata:/var/lib/postgresql/data \
   -p 5432:5432 \
-  localhost/postgres:16.1-alpine3.19
+  localhost/postgres:16.2-alpine3.19
 
 → 238a31bfa1113c9f6f665a59a5dd586fed09405004b552daf8abf7141df6a9ba
 ```
@@ -301,7 +301,7 @@ and then re-run the command:
   --name local-pg \
   -v pgdata:/var/lib/postgresql/data \
   -p 5432:5432 \
-  localhost/postgres:16.1-alpine3.19
+  localhost/postgres:16.2-alpine3.19
 
 → debc19aaf34fb7a87e7ced1704a68fcc66964a40721f93eb863ae498bc6b4c2b
 ```

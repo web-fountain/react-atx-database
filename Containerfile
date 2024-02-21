@@ -1,5 +1,5 @@
-# https://hub.docker.com/layers/library/postgres/16.1-alpine3.19/images/sha256-d9449d47e5bc5ac6b832168b0f38e7ea7762ac75c574963d5ebfd75090f55d35?context=explore
-FROM docker.io/library/postgres:16.1-alpine3.19
+# https://hub.docker.com/layers/library/postgres/16.2-alpine3.19/images/sha256-b551cbe2a88649a5f1ad75a8a1fbfa30c49a1837b16524255ea191717f30fd73?context=explore
+FROM docker.io/library/postgres:16.2-alpine3.19
 
 # build args
 ARG POSTGRES_DB
@@ -34,11 +34,11 @@ LABEL org.opencontainers.image.licenses=Apache-2.0
 # title, description, name, digest of image
 LABEL org.opencontainers.image.title="React ATX Database"
 LABEL org.opencontainers.image.description="Postgres database for local application development"
-LABEL org.opencontainers.image.base.name=dokcer.io/library/postgres:16.1-alpine3.19
-LABEL org.opencontainers.image.base.digest=sha256:d9449d47e5bc5ac6b832168b0f38e7ea7762ac75c574963d5ebfd75090f55d35
+LABEL org.opencontainers.image.base.name=dokcer.io/library/postgres:16.2-alpine3.19
+LABEL org.opencontainers.image.base.digest=sha256:b551cbe2a88649a5f1ad75a8a1fbfa30c49a1837b16524255ea191717f30fd73
 
 # version
-LABEL io.webfountain.postgres.version=16.1
+LABEL io.webfountain.postgres.version=16.2
 
 # env variables
 ENV POSTGRES_DB=$POSTGRES_DB
