@@ -27,7 +27,7 @@ async function magicLink() {
 
     magicLinks.push({
       // Leaving for Future Reference
-      // token_id:         (await randomBytesAsync(64)).toString('hex'),
+      // token:         (await randomBytesAsync(64)).toString('hex'),
       expires_at:       expiresAt.toISOString(),
       is_used:          faker.datatype.boolean({ probability: 0.5 }),
       magic_link_type:  faker.helpers.arrayElement(magicLinkTypes),

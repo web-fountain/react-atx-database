@@ -15,8 +15,10 @@ RETURNS TABLE (is_verified BOOLEAN, is_new_member BOOLEAN, token TEXT, expires_a
       WHERE mbr.email = join_email;
 
       IF NOT FOUND THEN
+      -- create new member
         INSERT INTO "community".member (email) VALUES (join_email);
-        SELECT * INTO token_record FROM create_magic_link_join_token(join_email);
+        SELECT * INTO token_record FROM create_magic_link_token(join_email, 'join');
+
         RETURN QUERY
           SELECT
             FALSE                         AS is_verified,
@@ -25,7 +27,9 @@ RETURNS TABLE (is_verified BOOLEAN, is_new_member BOOLEAN, token TEXT, expires_a
             token_record.expires_at       AS expires_at;
 
       ELSEIF member_record.is_verified = FALSE THEN
-        SELECT * INTO token_record FROM create_magic_link_join_token(join_email);
+      -- email has not been verified so send a new token
+        SELECT * INTO token_record FROM create_magic_link_token(join_email, 'join');
+
         RETURN QUERY
           SELECT
             FALSE                         AS is_verified,
@@ -34,6 +38,7 @@ RETURNS TABLE (is_verified BOOLEAN, is_new_member BOOLEAN, token TEXT, expires_a
             token_record.expires_at       AS expires_at;
 
       ELSE
+      -- repeat email
         RETURN QUERY
           SELECT
             TRUE        AS is_verified,
@@ -46,4 +51,4 @@ RETURNS TABLE (is_verified BOOLEAN, is_new_member BOOLEAN, token TEXT, expires_a
 LANGUAGE PLPGSQL;
 
 
--- SELECT is_verified, is_new_member FROM join_member('email@example.com')
+-- SELECT is_verified, is_new_member, token, expires_at FROM join_member('email@example.com')

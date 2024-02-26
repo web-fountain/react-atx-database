@@ -7,10 +7,10 @@
   "author": "",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@faker-js/faker": "^8.4.1",
-    "liquidjs": "^10.10.1",
-    "pg-promise": "^11.5.4",
-    "rimraf": "^5.0.5"
+    "@faker-js/faker": "8.4.1",
+    "liquidjs": "10.10.1",
+    "pg-promise": "11.5.4",
+    "rimraf": "5.0.5"
   },
   "scripts": {
     "initdb": "PGPASSWORD=local-dev psql -h localhost -U dev -d reactatx -f ./src/initdb.sql",

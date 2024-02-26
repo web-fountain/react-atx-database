@@ -5,7 +5,7 @@ SET search_path TO extensions, auth;
  * CREATE TABLE magic_link_token
  */
 CREATE TABLE IF NOT EXISTS  auth.magic_link_token (
-  token_id              TEXT NOT NULL DEFAULT create_64bytes_hex(),
+  token                 TEXT NOT NULL DEFAULT create_64bytes_hex(),
   expires_at            TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP + INTERVAL '15 minutes',
   is_used               BOOLEAN NOT NULL DEFAULT FALSE,
 
@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS  auth.magic_link_token (
   updated_at            TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
 
-  CONSTRAINT magic_link_token_id_pkey
-    PRIMARY KEY (token_id),
+  CONSTRAINT magic_link_token_pkey
+    PRIMARY KEY (token),
 
   CONSTRAINT magic_link_token_type_fkey
     FOREIGN KEY (magic_link_type)
@@ -26,9 +26,9 @@ CREATE TABLE IF NOT EXISTS  auth.magic_link_token (
 
 
 -- INDICES --
-CREATE INDEX IF NOT EXISTS magic_link_token_id_idx
+CREATE INDEX IF NOT EXISTS magic_link_token_idx
   ON auth.magic_link_token
-  USING btree (token_id);
+  USING btree (token);
 
 CREATE INDEX IF NOT EXISTS magic_link_email_idx
   ON auth.magic_link_token

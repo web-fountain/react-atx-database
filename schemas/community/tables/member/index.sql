@@ -23,5 +23,13 @@ CREATE INDEX IF NOT EXISTS member_email_idx
   USING btree (email);
 
 
+-- TRIGGERS --
+CREATE TRIGGER tr_member_updated_at_update
+  BEFORE UPDATE
+    ON community.member
+  FOR EACH ROW
+    EXECUTE PROCEDURE moddatetime(updated_at);
+
+
 -- GRANTS --
 -- GRANT ALL ON TABLE community.member TO dev;

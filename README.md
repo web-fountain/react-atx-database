@@ -11,7 +11,7 @@ Database for the React ATX Meetup
     - [Persist Data](#persist-data)
     - [Run Container](#run-container)
     - [Sanity Checks](#sanity-checks)
-  - [Docker](#docker-comming-soon)
+  - [Docker](#docker)
     - [Build Image](#build-image)
     - [Persist Data](#persist-data)
     - [Run Container](#run-container)
@@ -183,7 +183,7 @@ Our data persists!
 > 3. create a new volume: `podman volume create pgdata`
 > 4. run a new container following the above `podman run` command
 
-## Docker (comming soon!)
+## Docker
 
 The following assumes you have installed and have running [Docker Desktop].
 
@@ -242,7 +242,7 @@ Create a postgres container with the name local-pg:
 
 → 238a31bfa1113c9f6f665a59a5dd586fed09405004b552daf8abf7141df6a9ba
 ```
-The flag `-d` means to run the container in a detached mode. After executing the above command you should see a container ID sha as the only output (similar to this): `238a31bfa1113c9f6f665a59a5dd586fed09405004b552daf8abf7141df6a9ba`
+The flag `-d` means to run the container in a detached mode. After executing the above command you should see a container ID sha as the only output (yours will be different but similar): `238a31bfa1113c9f6f665a59a5dd586fed09405004b552daf8abf7141df6a9ba`
 
 ### Sanity Checks
 
